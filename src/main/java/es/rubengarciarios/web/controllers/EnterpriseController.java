@@ -1,6 +1,6 @@
-package es.rubengarciarios.web.api;
+package es.rubengarciarios.web.controllers;
 
-import es.rubengarciarios.web.persistence.services.dev.interfaces.EnterpriseService;
+import es.rubengarciarios.web.persistence.services.dev.EnterpriseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 

@@ -1,7 +1,7 @@
 package es.rubengarciarios.web.persistence;
 
 import es.rubengarciarios.web.config.persistence.Config;
-import es.rubengarciarios.web.persistence.config.TestConfig;
+import es.rubengarciarios.web.persistence.config.persistence.TestConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

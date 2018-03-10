@@ -21,6 +21,7 @@
         <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
         <project.resources.sourceEncoding>${encoding}</project.resources.sourceEncoding>
+        <project.database.connection.charSet>${encoding}</project.database.connection.charSet>
         <java.version>1.8</java.version>
         <!-- Maven -->
         <maven.compiler.version>3.7.0</maven.compiler.version>
@@ -53,12 +54,21 @@
                 </property>
             </activation>
             <properties>
+                <!-- Log -->
                 <logs.level>debug</logs.level>
                 <logs.path>target/logs</logs.path>
+                <!-- DataSource -->
+                <database.driver>org.mariadb.jdbc.Driver</database.driver>
                 <database.user>dev</database.user>
                 <database.password>*01#_DBA@dev_#09*</database.password>
                 <database.url>jdbc:mariadb://localhost:3306/${database.user}</database.url>
+                <!-- Hibernate -->
+                <hibernate.connection.charSet>${project.database.connection.charSet}</hibernate.connection.charSet>
+                <hibernate.show_sql>false</hibernate.show_sql>
+                <hibernate.format_sql>true</hibernate.format_sql>
                 <hibernate.hbm2ddl.auto>validate</hibernate.hbm2ddl.auto>
+                <hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
+                <!-- Tomcat -->
                 <tomcat.url>http://localhost:8080/services/dev</tomcat.url>
             </properties>
         </profile>
@@ -67,14 +77,14 @@
     <!-- D E P E N D E N C I E S -->
     <!-- ======================= -->
     <build>
+        <finalName>${deploy}</finalName>
         <!-- ========================================= -->
         <!-- R E S O U R C E S   D I R E C T O R I E S -->
         <!-- ========================================= -->
-        <finalName>${deploy}</finalName>
         <resources>
             <!-- standard Maven folder -->
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>${basedir}/src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
             <!-- plus root folder -->
@@ -97,9 +107,15 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>2.3</version>
-                <configuration>
-                    <encoding>${project.resources.sourceEncoding}</encoding>
-                </configuration>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>resources</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <!-- Maven Compiler -->
             <plugin>
@@ -136,6 +152,15 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestFile>${basedir}/src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
             </plugin>
             <!-- Tomcat -->
             <plugin>

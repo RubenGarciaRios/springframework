@@ -1,23 +1,22 @@
-package es.rubengarciarios.web.persistence.services.dev.implementations;
+package es.rubengarciarios.web.persistence.services.dev;
 
 import es.rubengarciarios.web.persistence.entities.dev.Enterprise;
-import es.rubengarciarios.web.persistence.repositories.dev.interfaces.EnterpriseRepository;
-import es.rubengarciarios.web.persistence.services.dev.interfaces.EnterpriseService;
-import org.springframework.stereotype.Repository;
+import es.rubengarciarios.web.persistence.repositories.dev.EnterpriseRepository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-@Repository
-@Transactional
+@Service
 public class EnterpriseServiceImp implements EnterpriseService {
 
     @PersistenceContext
     private EntityManager em;
 
-    @Autowired
+    @Resource
     private EnterpriseRepository repository;
 
     @Override

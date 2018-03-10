@@ -21,7 +21,8 @@ USE dev;
 CREATE TABLE IF NOT EXISTS enterprises (
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	name VARCHAR( 20 ) NOT NULL,
-	CONSTRAINT pk_enterprises PRIMARY KEY ( id )
+	CONSTRAINT pk_enterprises PRIMARY KEY ( id ),
+	CONSTRAINT uq_enterprises_name UNIQUE ( name )
 ) ENGINE = InnoDB;
 /* departament */
 CREATE TABLE IF NOT EXISTS departaments (

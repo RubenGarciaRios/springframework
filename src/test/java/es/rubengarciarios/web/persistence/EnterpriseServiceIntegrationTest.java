@@ -1,9 +1,11 @@
 package es.rubengarciarios.web.persistence;
 
 import es.rubengarciarios.web.persistence.entities.dev.Enterprise;
-import es.rubengarciarios.web.persistence.services.dev.interfaces.EnterpriseService;
+import es.rubengarciarios.web.persistence.services.dev.EnterpriseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class EnterpriseServiceIntegrationTest {
     @Autowired
     EnterpriseService enterpriseService;
