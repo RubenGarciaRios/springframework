@@ -1,7 +1,7 @@
 package es.rubengarciarios.web.config.persistence;
 
 import es.rubengarciarios.web.config.PackageList;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

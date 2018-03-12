@@ -22,4 +22,6 @@ public class PackageList {
     /// PROPERTIES ///
     //////////////////
     public static final String PROPERTIES_APPLICATION = "classpath:META-INF/application.properties";
+    public static final String PROPERTIES_GLOBAL_EXCEPTIONS = "classpath:exceptions/global_exceptions.properties";
+    public static final String PROPERTIES_PERSISTENCE_EXCEPTIONS = "classpath:exceptions/persistence_exceptions.properties";
 }

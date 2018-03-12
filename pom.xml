@@ -69,13 +69,13 @@
                 <hibernate.hbm2ddl.auto>validate</hibernate.hbm2ddl.auto>
                 <hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
                 <!-- Tomcat -->
-                <tomcat.url>http://localhost:8080/services/dev</tomcat.url>
+                <tomcat.url>http://localhost:8080/manager/text</tomcat.url>
             </properties>
         </profile>
     </profiles>
-    <!-- ======================= -->
-    <!-- D E P E N D E N C I E S -->
-    <!-- ======================= -->
+    <!-- ========= -->
+    <!-- B U I L D -->
+    <!-- ========= -->
     <build>
         <finalName>${deploy}</finalName>
         <!-- ========================================= -->
@@ -162,6 +162,11 @@
                     </archive>
                 </configuration>
             </plugin>
+            <!-- Spring Boot -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
             <!-- Tomcat -->
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
@@ -169,14 +174,20 @@
                 <version>${tomcat7.maven.version}</version>
                 <configuration>
                     <path>/${project.build.finalName}</path>
+                    <server>localhost</server>
                     <update>true</update>
                     <url>${tomcat.url}</url>
+                    <!--
                     <username>admin</username>
-                    <password>admin</password>
+                    <password>admin</password> -->
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
+    <!-- =================================== -->
+    <!-- P R O J E C T   D E V E L O P E R S -->
+    <!-- =================================== -->
     <developers>
         <developer>
             <name>Rubén García Ríos</name>
@@ -186,22 +197,14 @@
             </roles>
         </developer>
     </developers>
-    <!-- =================================== -->
-    <!-- P R O J E C T   D E V E L O P E R S -->
-    <!-- =================================== -->
+    <!-- ======================= -->
+    <!-- D E P E N D E N C I E S -->
+    <!-- ======================= -->
     <dependencies>
-        <!-- Logs -->
+        <!-- Boot -->
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <!-- Rest -->
         <dependency>
@@ -236,6 +239,10 @@
             <version>1.1.7</version>
         </dependency>
         <!-- Persistence -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
@@ -273,14 +280,13 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>${assertj-core-version}</version>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
