@@ -1,10 +1,13 @@
 package es.rubengarciarios.web.persistence.entities.dev;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table( name = "employees_projects", schema = "dev", catalog = "" )
-public class EmployeesProjects {
+public class EmployeesProjects implements Serializable {
+    private static final long serialVersionUID = 0x1L;
+
     private int id;
     private Employees employeesByIdEmployee;
     private int idEmployee;
@@ -13,6 +16,7 @@ public class EmployeesProjects {
 
     @Id
     @Column( name = "id" )
+    @GeneratedValue( strategy = GenerationType.IDENTITY )
     public int getId( ) {
         return id;
     }

@@ -1,11 +1,15 @@
 package es.rubengarciarios.web.persistence.entities.dev;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Collection;
 
 @Entity
-public class Employees {
+@Table( name = "employees", schema = "dev", catalog = "" )
+public class Employees implements Serializable {
+    private static final long serialVersionUID = 0x1L;
+
     private int id;
     private String name;
     private String firstname;
@@ -21,6 +25,7 @@ public class Employees {
 
     @Id
     @Column( name = "id" )
+    @GeneratedValue( strategy = GenerationType.IDENTITY )
     public int getId( ) {
         return id;
     }

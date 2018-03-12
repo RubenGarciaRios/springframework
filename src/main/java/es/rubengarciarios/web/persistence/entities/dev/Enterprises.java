@@ -1,20 +1,27 @@
 package es.rubengarciarios.web.persistence.entities.dev;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Collection;
 
 @Entity
-public class Enterprises {
+@Table( name = "enterprises", schema = "dev", catalog = "" )
+public class Enterprises implements Serializable {
+    private static final long serialVersionUID = 0x1L;
+
     private int id;
     private String name;
     private Collection< Departaments > departamentsById;
 
     public Enterprises( ) { }
+
     public Enterprises( String name ) { this.name = name; }
+
     public Enterprises( int id, String name ) {
         this.id = id;
         this.name = name;
     }
+
     public Enterprises( int id, String name, Collection< Departaments > departamentsById ) {
         this.id = id;
         this.name = name;
@@ -23,6 +30,7 @@ public class Enterprises {
 
     @Id
     @Column( name = "id" )
+    @GeneratedValue( strategy = GenerationType.IDENTITY )
     public int getId( ) {
         return id;
     }

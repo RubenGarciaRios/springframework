@@ -36,7 +36,7 @@ public class EnterprisesControllerTest {
                                                    Charset.forName( "utf8" ) );
     private MockMvc mockMvc;
     private HttpMessageConverter mappingJackson2HttpMessageConverter;
-    private Enterprises enterprises;
+    private Enterprises enterprise;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -59,34 +59,34 @@ public class EnterprisesControllerTest {
     public void setup( ) throws Exception {
         this.mockMvc = webAppContextSetup( webApplicationContext ).build( );
         this.enterprisesRepository.deleteAllInBatch( );
-        this.enterprises = enterprisesRepository.save( new Enterprises( "SOAINT" ) );
+        this.enterprise = enterprisesRepository.save( new Enterprises( "SOAINT" ) );
     }
 
     @Test
     public void save( ) throws Exception {
+        String name = "TEST";
         mockMvc.perform( post( "/enterprises" )
-                                 .content( this.json( new Enterprises( "OTHER" ) ) )
+                                 .content( this.json( new Enterprises( name ) ) )
                                  .contentType( contentType ) )
                 .andExpect( status( ).isCreated( ) )
-                .andExpect( jsonPath( "$.name", is( "OTHER" ) ) );
+                .andExpect( jsonPath( "$.name", is( name ) ) );
     }
 
     @Test
     public void findOne( ) throws Exception {
-        System.out.println( "/enterprises/" + enterprises.getId( ) );
-        mockMvc.perform( get( "/enterprises/" + enterprises.getId( ) ) )
+        mockMvc.perform( get( "/enterprises/" + enterprise.getId( ) ) )
                 .andExpect( status( ).isOk( ) )
                 .andExpect( content( ).contentType( contentType ) )
-                .andExpect( jsonPath( "$.id", is( enterprises.getId( ) ) ) )
-                .andExpect( jsonPath( "$.name", is( enterprises.getName( ) ) ) );
+                .andExpect( jsonPath( "$.id", is( enterprise.getId( ) ) ) )
+                .andExpect( jsonPath( "$.name", is( enterprise.getName( ) ) ) );
     }
 
     @Test
     public void findOneByName( ) throws Exception {
-        mockMvc.perform( get( "/enterprises/" + enterprises.getName( ) ) )
+        mockMvc.perform( get( "/enterprises/" + enterprise.getName( ) ) )
                 .andExpect( status( ).isOk( ) )
                 .andExpect( content( ).contentType( contentType ) )
-                .andExpect( jsonPath( "$.name", is( enterprises.getName( ) ) ) );
+                .andExpect( jsonPath( "$.name", is( enterprise.getName( ) ) ) );
     }
 
     /*

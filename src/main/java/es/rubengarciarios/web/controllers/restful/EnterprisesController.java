@@ -1,14 +1,12 @@
 package es.rubengarciarios.web.controllers.restful;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import es.rubengarciarios.web.persistence.entities.dev.Enterprises;
 import es.rubengarciarios.web.persistence.services.dev.EnterprisesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -28,33 +26,46 @@ public class EnterprisesController {
         try {
             return this.enterprisesService.findOne( Integer.parseInt( id ) );
         } catch ( Exception e ) {
-            return this.enterprisesService.findOneByName( id ); }
+            return this.enterprisesService.findOne( id ); }
     }
 
     @RequestMapping( method = RequestMethod.POST )
-    ResponseEntity< ? > save( @Valid @RequestBody Enterprises enterprise, UriComponentsBuilder uriComponentsBuilder ) {
-        enterprisesService.save( enterprise );
-        HttpHeaders headers = new HttpHeaders( );
-        headers.setLocation( uriComponentsBuilder.path( "/enterprises/{id}" ).buildAndExpand( enterprise.getName( ) ).toUri( ) );
-        return new ResponseEntity< >( headers, HttpStatus.CREATED );
+    ResponseEntity< ? > save( @Valid @RequestBody Enterprises enterprise ) {
+        return new ResponseEntity< Enterprises >( enterprisesService.save( enterprise ), HttpStatus.CREATED ); }
+
+    @RequestMapping( method = RequestMethod.PUT, value = "/{id}" )
+    ResponseEntity< ? > update( @PathVariable("id") String id, @Valid @RequestBody Enterprises enterprise ) {
+        try {
+            enterprise.setId( this.enterprisesService.findOne( Integer.parseInt( id ) ).getId( ) );
+        } catch ( Exception e ) {
+            enterprise.setId( this.enterprisesService.findOne( id ).getId( ) ); }
+        return new ResponseEntity< Enterprises >( enterprisesService.update( enterprise ), HttpStatus.OK );
     }
 
-    @RequestMapping( method = RequestMethod.DELETE, value = "/{obj}" )
-    void delete( @PathVariable Object obj ) {
+    @RequestMapping( method = RequestMethod.PUT )
+    ResponseEntity< ? > update( @Valid @RequestBody Enterprises enterprise ) {
+        return new ResponseEntity< Enterprises >( enterprisesService.update( enterprise ), HttpStatus.OK );
+    }
+
+    @RequestMapping( method = RequestMethod.DELETE, value = "/{id}" )
+    void delete( @PathVariable String id ) {
         try {
-            this.enterprisesService.delete( ( Integer ) obj );
-        } catch ( Exception e1 ) {
-            try {
-                this.enterprisesService.delete( ( Enterprises ) obj );
-            } catch ( Exception e2 ) {
-                try {
-                    this.enterprisesService.delete( ( Iterable< Enterprises > ) obj );
-                } catch ( Exception e3 ) { }
-            }
-        }
+            this.enterprisesService.delete( Integer.parseInt( id ) );
+        } catch ( Exception e ) {
+            this.enterprisesService.delete( id ); }
     }
 
     @RequestMapping( method = RequestMethod.DELETE )
-    void deleteAll( ) { this.enterprisesService.deleteAll( ); }
-
+    void delete( @RequestBody( required = false ) Object obj ) {
+        if ( obj == null )
+            this.enterprisesService.deleteAll( );
+        try {
+            Enterprises enterprise = ( Enterprises ) obj;
+            this.enterprisesService.delete( enterprise );
+        } catch ( Exception e ) {
+           /* ObjectMapper objectMapper = new ObjectMapper( );
+            objectMapper.r
+            Iterable< Enterprises > enterprises = ( Iterable< Enterprises > ) obj;
+            this.enterprisesService.delete( enterprises ); */ }
+    }
 }

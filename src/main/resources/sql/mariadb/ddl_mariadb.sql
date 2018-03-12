@@ -42,6 +42,8 @@ CREATE TABLE IF NOT EXISTS employees (
 	name VARCHAR( 20 ) NOT NULL,
 	firstname VARCHAR( 20 ) NOT NULL,
 	lastname VARCHAR( 20 ) NULL,
+	email VARCHAR( 30 ) NULL,
+	phone VARCHAR( 30 ) NULL,
 	gender char( 1 ) NOT NULL,
 	birthdate DATE NOT NULL,
 	incorporationdate DATE NOT NULL,
