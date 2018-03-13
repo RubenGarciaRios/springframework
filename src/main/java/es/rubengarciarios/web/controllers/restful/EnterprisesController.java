@@ -1,6 +1,9 @@
 package es.rubengarciarios.web.controllers.restful;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import es.rubengarciarios.web.persistence.entities.dev.Enterprises;
 import es.rubengarciarios.web.persistence.services.dev.EnterprisesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.List;
 
+@CrossOrigin( origins = "*", maxAge = 3600 )
 @RestController
 @RequestMapping( "/enterprises" )
 public class EnterprisesController {
@@ -63,9 +68,12 @@ public class EnterprisesController {
             Enterprises enterprise = ( Enterprises ) obj;
             this.enterprisesService.delete( enterprise );
         } catch ( Exception e ) {
-           /* ObjectMapper objectMapper = new ObjectMapper( );
-            objectMapper.r
-            Iterable< Enterprises > enterprises = ( Iterable< Enterprises > ) obj;
-            this.enterprisesService.delete( enterprises ); */ }
+            try {
+                /*
+                ObjectMapper objectMapper = new ObjectMapper( );
+                List< Enterprises > enterprises = objectMapper.readValue( obj.toString( ), new TypeReference< List< Enterprises > >( ){ } );
+                this.enterprisesService.delete( enterprises );*/
+            } catch ( Exception ioe ) { }
+        }
     }
 }
